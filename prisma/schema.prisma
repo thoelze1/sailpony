@@ -6,10 +6,17 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../app/generated/prisma"
+  // output   = "../app/generated/prisma"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "mysql"
+  url      = "mysql://mysqluser:password@localhost:3306/trackerappdb" // env("DATABASE_URL")
+}
+
+model Sleep {
+  id         Int      @id @default(autoincrement())
+  bedTime    DateTime
+  wakeUpTime DateTime
+  createdAt  DateTime @default(now())
 }
