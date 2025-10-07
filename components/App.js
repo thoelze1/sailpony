@@ -12,7 +12,7 @@ export default function App() {
   
   // Load existing submissions from backend
   useEffect(() => {
-    fetch("/api/submissions")
+    fetch("/api/submission")
       .then((res) => res.json())
       .then((data) => setSubmissions(data))
       .catch((err) => console.error("Failed to load submissions:", err));
@@ -42,7 +42,7 @@ export default function App() {
   };
   const handleNewSubmission = async (submission) => {
     try {
-      const res = await fetch("/api/submissions", {
+      const res = await fetch("/api/submission", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(submission),
@@ -59,7 +59,7 @@ export default function App() {
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this submission?")) return;
     try {
-      const res = await fetch(`/api/submissions/${id}`, {
+      const res = await fetch(`/api/submission/${id}`, {
         method: "DELETE",
       });
       if (!res.ok) throw new Error("Failed to delete");
