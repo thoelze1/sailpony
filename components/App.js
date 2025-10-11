@@ -1,14 +1,24 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import MyForm from "./MyForm";
 import ChartView from "./ChartView";
 import CalendarView from "./CalendarView";
 import SleepForm from "./SleepForm";
+import dynamic from 'next/dynamic';
+import "leaflet/dist/leaflet.css";
 
 export default function App() {
   const [submissions, setSubmissions] = useState([]);
   const [sleepData, setSleepData] = useState([]);
+
+  const Map = useMemo(() => dynamic(
+    () => import('./MapView'),
+    { 
+      loading: () => <p>A map is loading</p>,
+      ssr: false
+    }
+  ), [])
   
   // Load existing submissions from backend
   useEffect(() => {
@@ -106,7 +116,11 @@ export default function App() {
       <div className="bg-white shadow-md rounded-2xl p-6 w-full max-w-3xl">
         <ChartView data={submissions} />
       </div>
-
+      <p className="text-black">hi</p>
+      <div className="h-[400px] w-full rounded overflow-hidden">
+        <Map />
+      </div>
+<p>there</p>
       {/* Calendar Card */}
       <div className="bg-white shadow-md rounded-2xl p-6 w-full max-w-5xl">
         <CalendarView numberOfDays={3} />
