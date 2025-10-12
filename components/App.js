@@ -80,9 +80,10 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-blue-50 flex flex-col items-center p-6 space-y-8">
-      <div className="h-[400px] w-full rounded overflow-hidden">
-        <p className="text-black">Hey everybody here we are!!!</p>
+    <div className="min-h-screen bg-gray-900 flex flex-col items-center p-6 space-y-8 text-white">
+      {/* Map container card */}
+      <div className="h-[400px] w-full max-w-4xl rounded-2xl overflow-hidden shadow-lg bg-gray-800 border border-gray-700">
+        <p className="p-4 text-lg font-medium">Hey everybody, here we are!!!</p>
         <Map />
       </div>
     </div>
