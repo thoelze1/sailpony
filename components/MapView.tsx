@@ -4,6 +4,7 @@
 import React from "react";
 import "leaflet/dist/leaflet.css"
 import { MapContainer, Marker, TileLayer, Tooltip, Popup } from "react-leaflet"
+import * as L from "leaflet";
 //import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
 export default function MapView() {
