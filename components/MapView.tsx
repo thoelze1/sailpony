@@ -18,6 +18,220 @@ interface GpxTrackProps {
   onPointsLoaded: (points: TrackPoint[]) => void;
 }
 
+interface Photo {
+  url: string;
+  timestamp: Date;
+  lat?: number;
+  lng?: number; // optional if you have GPS
+}
+
+const photos: Photo[] = [
+  {
+    url: '/photos/PXL_20251001_193125853.jpg',
+    timestamp: new Date("2025-10-01T15:31:25.000Z")
+  },
+  {
+    url: '/photos/PXL_20251001_193126909.jpg',
+    timestamp: new Date("2025-10-01T15:31:26.000Z")
+  },
+  {
+    url: '/photos/PXL_20251001_195224243.jpg',
+    timestamp: new Date("2025-10-01T15:52:24.000Z")
+  },
+  {
+    url: '/photos/PXL_20251001_195226223.jpg',
+    timestamp: new Date("2025-10-01T15:52:26.000Z")
+  },
+  {
+    url: '/photos/PXL_20251001_215025729.jpg',
+    timestamp: new Date("2025-10-01T17:50:25.000Z")
+  },
+  {
+    url: '/photos/PXL_20251001_215038036.jpg',
+    timestamp: new Date("2025-10-01T17:50:38.000Z")
+  },
+  {
+    url: '/photos/PXL_20251001_215039574.jpg',
+    timestamp: new Date("2025-10-01T17:50:39.000Z")
+  },
+  {
+    url: '/photos/PXL_20251001_232545626.jpg',
+    timestamp: new Date("2025-10-01T19:25:45.000Z")
+  },
+  {
+    url: '/photos/PXL_20251002_000312003.jpg',
+    timestamp: new Date("2025-10-01T20:03:12.000Z")
+  },
+  {
+    url: '/photos/PXL_20251002_000312472.jpg',
+    timestamp: new Date("2025-10-01T20:03:12.000Z")
+  },
+  {
+    url: '/photos/PXL_20251002_000313174.jpg',
+    timestamp: new Date("2025-10-01T20:03:13.000Z")
+  },
+  {
+    url: '/photos/PXL_20251002_104740318.jpg',
+    timestamp: new Date("2025-10-02T06:47:40.000Z")
+  },
+  {
+    url: '/photos/PXL_20251002_104741160.jpg',
+    timestamp: new Date("2025-10-02T06:47:41.000Z")
+  },
+  {
+    url: '/photos/PXL_20251002_104750325.jpg',
+    timestamp: new Date("2025-10-02T06:47:50.000Z")
+  },
+  {
+    url: '/photos/PXL_20251002_104751404.jpg',
+    timestamp: new Date("2025-10-02T06:47:51.000Z")
+  },
+  {
+    url: '/photos/PXL_20251002_105014568.jpg',
+    timestamp: new Date("2025-10-02T06:50:14.000Z")
+  },
+  {
+    url: '/photos/PXL_20251002_105019970.jpg',
+    timestamp: new Date("2025-10-02T06:50:19.000Z")
+  },
+  {
+    url: '/photos/PXL_20251002_105020664.jpg',
+    timestamp: new Date("2025-10-02T06:50:20.000Z")
+  },
+  {
+    url: '/photos/PXL_20251002_105215621.jpg',
+    timestamp: new Date("2025-10-02T06:52:15.000Z")
+  },
+  {
+    url: '/photos/PXL_20251002_105220107.jpg',
+    timestamp: new Date("2025-10-02T06:52:20.000Z")
+  },
+  {
+    url: '/photos/PXL_20251002_105305030.jpg',
+    timestamp: new Date("2025-10-02T06:53:05.000Z")
+  },
+  {
+    url: '/photos/PXL_20251002_105604670.jpg',
+    timestamp: new Date("2025-10-02T06:56:04.000Z")
+  },
+  {
+    url: '/photos/PXL_20251002_111545789.jpg',
+    timestamp: new Date("2025-10-02T07:15:45.000Z")
+  },
+  {
+    url: '/photos/PXL_20251002_145040074.jpg',
+    timestamp: new Date("2025-10-02T10:50:40.000Z")
+  },
+  {
+    url: '/photos/PXL_20251002_145040199.jpg',
+    timestamp: new Date("2025-10-02T10:50:40.000Z")
+  },
+  {
+    url: '/photos/PXL_20251002_145108751.jpg',
+    timestamp: new Date("2025-10-02T10:51:08.000Z")
+  },
+  {
+    url: '/photos/PXL_20251002_145310719.jpg',
+    timestamp: new Date("2025-10-02T10:53:10.000Z")
+  },
+  {
+    url: '/photos/PXL_20251002_145311099.jpg',
+    timestamp: new Date("2025-10-02T10:53:11.000Z")
+  },
+  {
+    url: '/photos/PXL_20251002_152125245.jpg',
+    timestamp: new Date("2025-10-02T11:21:25.000Z")
+  },
+  {
+    url: '/photos/PXL_20251002_152126477.jpg',
+    timestamp: new Date("2025-10-02T11:21:26.000Z")
+  },
+  {
+    url: '/photos/PXL_20251002_160448396.jpg',
+    timestamp: new Date("2025-10-02T12:04:48.000Z")
+  },
+  {
+    url: '/photos/PXL_20251002_164019117.jpg',
+    timestamp: new Date("2025-10-02T12:40:19.000Z")
+  },
+  {
+    url: '/photos/PXL_20251002_164020746.jpg',
+    timestamp: new Date("2025-10-02T12:40:20.000Z")
+  },
+  {
+    url: '/photos/PXL_20251002_164034971.jpg',
+    timestamp: new Date("2025-10-02T12:40:34.000Z")
+  },
+  {
+    url: '/photos/PXL_20251002_171631275.jpg',
+    timestamp: new Date("2025-10-02T13:16:31.000Z")
+  },
+  {
+    url: '/photos/PXL_20251002_171632617.jpg',
+    timestamp: new Date("2025-10-02T13:16:32.000Z")
+  },
+  {
+    url: '/photos/PXL_20251002_171633324.jpg',
+    timestamp: new Date("2025-10-02T13:16:33.000Z")
+  },
+  {
+    url: '/photos/PXL_20251002_180209639.jpg',
+    timestamp: new Date("2025-10-02T14:02:09.000Z")
+  },
+  {
+    url: '/photos/PXL_20251002_180214021.jpg',
+    timestamp: new Date("2025-10-02T14:02:14.000Z")
+  },
+  {
+    url: '/photos/PXL_20251002_180218374.jpg',
+    timestamp: new Date("2025-10-02T14:02:18.000Z")
+  },
+  {
+    url: '/photos/PXL_20251002_182721133.jpg',
+    timestamp: new Date("2025-10-02T14:27:21.000Z")
+  },
+  {
+    url: '/photos/PXL_20251002_182722395.jpg',
+    timestamp: new Date("2025-10-02T14:27:22.000Z")
+  },
+  {
+    url: '/photos/PXL_20251002_184015375.jpg',
+    timestamp: new Date("2025-10-02T14:40:15.000Z")
+  },
+  {
+    url: '/photos/PXL_20251002_184016414.jpg',
+    timestamp: new Date("2025-10-02T14:40:16.000Z")
+  },
+  {
+    url: '/photos/PXL_20251002_212150893.jpg',
+    timestamp: new Date("2025-10-02T17:21:50.000Z")
+  },
+  {
+    url: '/photos/PXL_20251002_212236957.jpg',
+    timestamp: new Date("2025-10-02T17:22:36.000Z")
+  },
+  {
+    url: '/photos/PXL_20251002_212248448.jpg',
+    timestamp: new Date("2025-10-02T17:22:48.000Z")
+  },
+  {
+    url: '/photos/PXL_20251002_212249062.jpg',
+    timestamp: new Date("2025-10-02T17:22:49.000Z")
+  },
+  {
+    url: '/photos/PXL_20251002_233825346.jpg',
+    timestamp: new Date("2025-10-02T19:38:25.000Z")
+  },
+  {
+    url: '/photos/PXL_20251002_233826238.jpg',
+    timestamp: new Date("2025-10-02T19:38:26.000Z")
+  },
+  {
+    url: '/photos/PXL_20251002_233826812.jpg',
+    timestamp: new Date("2025-10-02T19:38:26.000Z")
+  }
+]
+
 function GpxTrack({ url, onPointsLoaded }: GpxTrackProps) {
   const customIcon = new L.Icon({
         iconUrl:
@@ -70,9 +284,15 @@ export default function MapView() {
   });
   const gpxUrl = "/day1.gpx";
   const [trackPoints, setTrackPoints] = useState<TrackPoint[]>([]);
+  const [selectedTime, setSelectedTime] = useState<number | null>(null);
   const [sliderValue, setSliderValue] = useState(0);
+  const [currentPoint, setCurrentPoint] = useState<TrackPoint | null>(null);
   const markerRef = useRef<L.Marker | null>(null);
+  const start = trackPoints.length > 0 ? trackPoints[0].time.getTime() : 0;
+const end = trackPoints.length > 0 ? trackPoints[trackPoints.length - 1].time.getTime() : 0;
 
+  //  const start = new Date("2025-09-30T00:00:00Z").getTime();
+  //const end = new Date("2025-10-01T23:00:00Z").getTime();
   useEffect(() => {
     const trackPointsWithTime = [];
     const parser = new gpxParser();
@@ -98,34 +318,51 @@ export default function MapView() {
       .catch(error => console.error("Error fetching or parsing GPX file:", error));
   }, []);
 
-  /*
   useEffect(() => {
-    if (!markerRef.current || trackPoints.length === 0) return;
+    if (selectedTime === null || trackPoints.length === 0) return;
     
     // find the closest point in time
     const closest = trackPoints.reduce((prev, curr) => {
-      return Math.abs(curr.time - sliderValue) < Math.abs(prev.time - sliderValue)
+      return Math.abs(curr.time - selectedTime) < Math.abs(prev.time - selectedTime)
         ? curr
         : prev;
     });
     
-    markerRef.current.setLatLng(closest.latlng);
-  }, [sliderValue, trackPoints]);
-   */
+    setCurrentPoint(closest);
+    }, [selectedTime, trackPoints]);
+
+  const nearbyPhotos: Photo[] = photos.filter(photo => {
+    if (!selectedTime) return false;
+    const delta = Math.abs(photo.timestamp.getTime() - selectedTime);
+    return delta <= 5 * 60 * 1000; // ±5 minutes
+  });
+  
   return (
     <div>
-      <p>length: {trackPoints.length}</p>
-            {trackPoints.length > 0 && (
+      <div className="w-full flex flex-col items-center space-y-2 mb-4">
+        {/* 🕒 Current Time Label */}
+        <p className="text-sm text-gray-300 font-medium">
+          {selectedTime
+            ? new Date(selectedTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+            : "Select a time"}
+        </p>
+        
+        {/* 🎚 Slider */}
         <input
           type="range"
-          min={0}
-          max={trackPoints.length}
-          value={sliderValue}
-          onChange={(e) => setSliderValue(Number(e.target.value))}
-          className="w-full max-w-4xl h-2 rounded-lg bg-gray-700 accent-blue-500 mt-2"
+          min={start}
+          max={end}
+          step={1000} // 1 second increments
+          value={selectedTime ?? start}
+          onChange={(e) => setSelectedTime(Number(e.target.value))}
+          className="w-full accent-blue-500 bg-gray-700 rounded-lg cursor-pointer"
         />
-      )}
-
+      </div>
+      <div className="flex space-x-2 overflow-x-auto">
+        {nearbyPhotos.map((photo, i) => (
+          <img key={i} src={photo.url} className="h-24 rounded-lg" />
+        ))}
+      </div>
       <MapContainer style={{ height: '100vh' }} center={[41.2195553, -73.9674118]} zoom={15} scrollWheelZoom={true}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -137,11 +374,11 @@ export default function MapView() {
             A pretty CSS3 popup. <br /> Easily customizable.
           </Popup>
         </Marker>
-        {trackPoints.length > 0 && (
+        {trackPoints.length > 0 && currentPoint != null && (
           <Marker
-            position={trackPoints[sliderValue].latlng}
+            position={currentPoint.latlng}
             icon={customIcon}
-            ref={markerRef}
+            //ref={markerRef}
           />
         )}
       </MapContainer>
