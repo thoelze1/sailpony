@@ -58,6 +58,62 @@ function GpxTrack({ url, onPointsLoaded }: GpxTrackProps) {
   });
   const map = useMap();
 
+  // Inside your GpxTrack component...
+
+  useEffect(() => {
+    // 1. Ensure we are in the browser and the map is ready
+    if (typeof window === "undefined" || !map) return;
+    
+    // Use an IIFE (Immediately Invoked Function Expression) for async cleanup
+    const loadGpxPlugin = async () => {
+      try {
+        // Dynamically import the plugin
+        const gpxModule = await import('leaflet-gpx');
+
+        // 🚨 CRITICAL: Determine the correct GPX Constructor
+        // Check the module's default export OR the global L object (where the plugin attaches itself)
+        const GPXConstructor = 
+              (gpxModule as any).GPX || 
+                (window as any).L?.GPX;
+
+        if (!GPXConstructor) {
+          console.error("L.GPX could not be found after dynamic import. The plugin failed to register.");
+          return;
+        }
+
+        // 2. Use the successfully resolved constructor
+        const gpx = new GPXConstructor(url, {
+          async: true,
+          markers: {
+            startIcon: customIcon,
+            endIcon: customIcon,
+          },
+        })
+          .on("loaded", (e: { target: L.GPX }) => {
+            map.fitBounds(e.target.getBounds());
+          })
+          .addTo(map);
+
+        // 3. Return the cleanup function
+        return () => {
+          map.removeLayer(gpx);
+        };
+
+      } catch (error) {
+        console.error("Error loading leaflet-gpx:", error);
+      }
+    };
+    
+    // Call the async loader function
+    const cleanup = loadGpxPlugin();
+
+    // The returned cleanup function will be a Promise, which React handles fine
+    return () => {
+      cleanup.then(fn => fn && fn());
+    };
+
+  }, [url, map, customIcon]); // Added customIcon dependency for correctness
+  /*
   useEffect(() => {
     if (typeof window === "undefined") return;
     
@@ -83,7 +139,7 @@ function GpxTrack({ url, onPointsLoaded }: GpxTrackProps) {
       };
     });
   }, [url, map]);
-
+   */
   return null;
 }
 
@@ -182,6 +238,18 @@ export default function MapView() {
             <TileLayer
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+            <TileLayer
+              attribution='NOAA Nautical Charts &copy; <a href="https://www.nauticalcharts.noaa.gov/">NOAA</a>'
+              // This is a common publicly available URL for NOAA's RNC (Raster Nautical Chart) tiles.
+              url="https://tileservice.charts.noaa.gov/tiles/50000_1/{z}/{x}/{y}.png"
+              // NOAA charts typically only support zoom levels up to z18
+              maxZoom={18}
+            />
+            <TileLayer
+              attribution='&copy; <a href="http://www.openseamap.org">OpenSeaMap</a>'
+              url="http://tiles.openseamap.org/seamap/{z}/{x}/{y}.png"
+              zIndex={500} // Ensure it draws above the base map
             />
             <GpxTrack url={gpxUrl} onPointsLoaded={(points) => {setTrackPoints(points); setSliderValue(points[0]?.time || 0); console.log("points.length: ", points.length); }} />    
             <Marker position={[41.2195553, -73.9674118]} icon={customIcon}>
