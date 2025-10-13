@@ -1,7 +1,7 @@
 // src/ChartView.js
 'use client';
 
-import { React, useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import "leaflet/dist/leaflet.css"
 import { MapContainer, Marker, TileLayer, Tooltip, Popup, useMap } from "react-leaflet"
 import * as L from "leaflet";
@@ -248,7 +248,6 @@ function GpxTrack({ url, onPointsLoaded }: GpxTrackProps) {
   const map = useMap();
 
   useEffect(() => {
-    var trackPointsWithTime = [];
     const gpx = new L.GPX(url, {
       async: true,
       markers: {
@@ -288,13 +287,13 @@ export default function MapView() {
   const [sliderValue, setSliderValue] = useState(0);
   const [currentPoint, setCurrentPoint] = useState<TrackPoint | null>(null);
   const markerRef = useRef<L.Marker | null>(null);
-  const start = trackPoints.length > 0 ? trackPoints[0].time.getTime() : 0;
-const end = trackPoints.length > 0 ? trackPoints[trackPoints.length - 1].time.getTime() : 0;
+  const start = trackPoints.length > 0 ? trackPoints[0].time : 0;
+  const end = trackPoints.length > 0 ? trackPoints[trackPoints.length - 1].time : 0;
 
   //  const start = new Date("2025-09-30T00:00:00Z").getTime();
   //const end = new Date("2025-10-01T23:00:00Z").getTime();
   useEffect(() => {
-    const trackPointsWithTime = [];
+    const trackPointsWithTime : TrackPoint[] =[];
     const parser = new gpxParser();
     fetch(gpxUrl)
       .then(response => response.text())
@@ -307,8 +306,8 @@ const end = trackPoints.length > 0 ? trackPoints[trackPoints.length - 1].time.ge
           track.points.forEach(point => {
             //console.log("hi");
             trackPointsWithTime.push({
-              latlng: [point.lat, point.lon],
-              time: point.time // Time is available here
+              latlng: new L.LatLng(point.lat, point.lon),
+              time: point.time.getTime() // Time is available here
             });
           });
         });
@@ -323,7 +322,7 @@ const end = trackPoints.length > 0 ? trackPoints[trackPoints.length - 1].time.ge
     
     // find the closest point in time
     const closest = trackPoints.reduce((prev, curr) => {
-      return Math.abs(curr.time - selectedTime) < Math.abs(prev.time - selectedTime)
+      return Math.abs(curr.time - selectedTime!) < Math.abs(prev.time - selectedTime!)
         ? curr
         : prev;
     });
@@ -338,10 +337,10 @@ const end = trackPoints.length > 0 ? trackPoints[trackPoints.length - 1].time.ge
   });
   
   return (
-    <div>
+    <div className="min-h-screen bg-gray-900 p-4 text-white">
       <div className="w-full flex flex-col items-center space-y-2 mb-4">
         {/* 🕒 Current Time Label */}
-        <p className="text-sm text-gray-300 font-medium">
+        <p className="text-sm text-gray-300 font-medium mb-2">
           {selectedTime
             ? new Date(selectedTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })
             : "Select a time"}
@@ -358,30 +357,45 @@ const end = trackPoints.length > 0 ? trackPoints[trackPoints.length - 1].time.ge
           className="w-full accent-blue-500 bg-gray-700 rounded-lg cursor-pointer"
         />
       </div>
-      <div className="flex space-x-2 overflow-x-auto">
-        {nearbyPhotos.map((photo, i) => (
-          <img key={i} src={photo.url} className="h-24 rounded-lg" />
-        ))}
+      <div className="flex w-full gap-4 h-full">
+        <div className="w-1/3 h-[1200px] rounded-xl overflow-hidden shadow-lg">
+          <MapContainer style={{ height: '100%', width: "100%" }} center={[41.2195553, -73.9674118]} zoom={15} scrollWheelZoom={true}>
+            <TileLayer
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+            <GpxTrack url={gpxUrl} onPointsLoaded={(points) => {setTrackPoints(points); setSliderValue(points[0]?.time || 0); console.log("points.length: ", points.length); }} />    
+            <Marker position={[41.2195553, -73.9674118]} icon={customIcon}>
+              <Popup>
+                A pretty CSS3 popup. <br /> Easily customizable.
+              </Popup>
+            </Marker>
+            {trackPoints.length > 0 && currentPoint != null && (
+              <Marker
+                position={currentPoint.latlng}
+                icon={customIcon}
+                //ref={markerRef}
+              />
+            )}
+          </MapContainer>
+        </div>
+        <div className="w-2/3 flex flex-col gap-2">
+           {nearbyPhotos.length === 0 ? (
+            <p className="text-gray-400">No photos at this time</p>
+          ) : (
+            <div className="flex flex-wrap gap-2 overflow-y-auto max-h-[600px] p-2 rounded-xl bg-gray-800 shadow-inner">
+              {nearbyPhotos.map((photo, idx) => (
+                <img
+                  key={idx}
+                  src={photo.url}
+                  alt={`Photo ${idx}`}
+                  className="h-40 rounded-lg shadow-lg object-cover"
+                />
+              ))}
+            </div>
+          )}
+        </div>
       </div>
-      <MapContainer style={{ height: '100vh' }} center={[41.2195553, -73.9674118]} zoom={15} scrollWheelZoom={true}>
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        <GpxTrack url={gpxUrl} onPointsLoaded={(points) => {setTrackPoints(points); setSliderValue(points[0]?.time || 0); console.log("points.length: ", points.length); }} />    
-        <Marker position={[41.2195553, -73.9674118]} icon={customIcon}>
-          <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
-          </Popup>
-        </Marker>
-        {trackPoints.length > 0 && currentPoint != null && (
-          <Marker
-            position={currentPoint.latlng}
-            icon={customIcon}
-            //ref={markerRef}
-          />
-        )}
-      </MapContainer>
     </div>
   );
 }

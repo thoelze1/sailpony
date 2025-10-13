@@ -9,11 +9,16 @@ declare module "leaflet" {
         endIconUrl?: string;
         shadowUrl?: string;
       };
+      markers?: {
+        startIcon?: L.Icon;
+        endIcon?: L.Icon;
+        shadowUrl?: string;
+      };
     }
   }
 
   class GPX extends L.FeatureGroup {
-    constructor(gpx: string, options?: GPX.Options);
+    constructor(gpx: string, options?: GPX.Options );
     getBounds(): L.LatLngBounds;
   }
 }
