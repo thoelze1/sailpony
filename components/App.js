@@ -12,13 +12,13 @@ export default function App() {
   const [submissions, setSubmissions] = useState([]);
   const [sleepData, setSleepData] = useState([]);
 
-  const Map = useMemo(() => dynamic(
+  const Map = dynamic(
     () => import('./MapView'),
     { 
       loading: () => <p>A map is loading</p>,
       ssr: false
     }
-  ), [])
+  );
   
   // Load existing submissions from backend
   useEffect(() => {

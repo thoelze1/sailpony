@@ -5,7 +5,6 @@ import { useEffect, useState, useRef } from "react";
 import "leaflet/dist/leaflet.css"
 import { MapContainer, Marker, TileLayer, Tooltip, Popup, useMap } from "react-leaflet"
 import * as L from "leaflet";
-import "leaflet-gpx";
 import gpxParser from 'gpxparser';
 
 interface TrackPoint {
@@ -27,34 +26,6 @@ interface Photo {
 
 const photos: Photo[] = [
   {
-    url: '/photos/PXL_20251001_193125853.jpg',
-    timestamp: new Date("2025-10-01T15:31:25.000Z")
-  },
-  {
-    url: '/photos/PXL_20251001_193126909.jpg',
-    timestamp: new Date("2025-10-01T15:31:26.000Z")
-  },
-  {
-    url: '/photos/PXL_20251001_195224243.jpg',
-    timestamp: new Date("2025-10-01T15:52:24.000Z")
-  },
-  {
-    url: '/photos/PXL_20251001_195226223.jpg',
-    timestamp: new Date("2025-10-01T15:52:26.000Z")
-  },
-  {
-    url: '/photos/PXL_20251001_215025729.jpg',
-    timestamp: new Date("2025-10-01T17:50:25.000Z")
-  },
-  {
-    url: '/photos/PXL_20251001_215038036.jpg',
-    timestamp: new Date("2025-10-01T17:50:38.000Z")
-  },
-  {
-    url: '/photos/PXL_20251001_215039574.jpg',
-    timestamp: new Date("2025-10-01T17:50:39.000Z")
-  },
-  {
     url: '/photos/PXL_20251001_232545626.jpg',
     timestamp: new Date("2025-10-01T19:25:45.000Z")
   },
@@ -70,166 +41,6 @@ const photos: Photo[] = [
     url: '/photos/PXL_20251002_000313174.jpg',
     timestamp: new Date("2025-10-01T20:03:13.000Z")
   },
-  {
-    url: '/photos/PXL_20251002_104740318.jpg',
-    timestamp: new Date("2025-10-02T06:47:40.000Z")
-  },
-  {
-    url: '/photos/PXL_20251002_104741160.jpg',
-    timestamp: new Date("2025-10-02T06:47:41.000Z")
-  },
-  {
-    url: '/photos/PXL_20251002_104750325.jpg',
-    timestamp: new Date("2025-10-02T06:47:50.000Z")
-  },
-  {
-    url: '/photos/PXL_20251002_104751404.jpg',
-    timestamp: new Date("2025-10-02T06:47:51.000Z")
-  },
-  {
-    url: '/photos/PXL_20251002_105014568.jpg',
-    timestamp: new Date("2025-10-02T06:50:14.000Z")
-  },
-  {
-    url: '/photos/PXL_20251002_105019970.jpg',
-    timestamp: new Date("2025-10-02T06:50:19.000Z")
-  },
-  {
-    url: '/photos/PXL_20251002_105020664.jpg',
-    timestamp: new Date("2025-10-02T06:50:20.000Z")
-  },
-  {
-    url: '/photos/PXL_20251002_105215621.jpg',
-    timestamp: new Date("2025-10-02T06:52:15.000Z")
-  },
-  {
-    url: '/photos/PXL_20251002_105220107.jpg',
-    timestamp: new Date("2025-10-02T06:52:20.000Z")
-  },
-  {
-    url: '/photos/PXL_20251002_105305030.jpg',
-    timestamp: new Date("2025-10-02T06:53:05.000Z")
-  },
-  {
-    url: '/photos/PXL_20251002_105604670.jpg',
-    timestamp: new Date("2025-10-02T06:56:04.000Z")
-  },
-  {
-    url: '/photos/PXL_20251002_111545789.jpg',
-    timestamp: new Date("2025-10-02T07:15:45.000Z")
-  },
-  {
-    url: '/photos/PXL_20251002_145040074.jpg',
-    timestamp: new Date("2025-10-02T10:50:40.000Z")
-  },
-  {
-    url: '/photos/PXL_20251002_145040199.jpg',
-    timestamp: new Date("2025-10-02T10:50:40.000Z")
-  },
-  {
-    url: '/photos/PXL_20251002_145108751.jpg',
-    timestamp: new Date("2025-10-02T10:51:08.000Z")
-  },
-  {
-    url: '/photos/PXL_20251002_145310719.jpg',
-    timestamp: new Date("2025-10-02T10:53:10.000Z")
-  },
-  {
-    url: '/photos/PXL_20251002_145311099.jpg',
-    timestamp: new Date("2025-10-02T10:53:11.000Z")
-  },
-  {
-    url: '/photos/PXL_20251002_152125245.jpg',
-    timestamp: new Date("2025-10-02T11:21:25.000Z")
-  },
-  {
-    url: '/photos/PXL_20251002_152126477.jpg',
-    timestamp: new Date("2025-10-02T11:21:26.000Z")
-  },
-  {
-    url: '/photos/PXL_20251002_160448396.jpg',
-    timestamp: new Date("2025-10-02T12:04:48.000Z")
-  },
-  {
-    url: '/photos/PXL_20251002_164019117.jpg',
-    timestamp: new Date("2025-10-02T12:40:19.000Z")
-  },
-  {
-    url: '/photos/PXL_20251002_164020746.jpg',
-    timestamp: new Date("2025-10-02T12:40:20.000Z")
-  },
-  {
-    url: '/photos/PXL_20251002_164034971.jpg',
-    timestamp: new Date("2025-10-02T12:40:34.000Z")
-  },
-  {
-    url: '/photos/PXL_20251002_171631275.jpg',
-    timestamp: new Date("2025-10-02T13:16:31.000Z")
-  },
-  {
-    url: '/photos/PXL_20251002_171632617.jpg',
-    timestamp: new Date("2025-10-02T13:16:32.000Z")
-  },
-  {
-    url: '/photos/PXL_20251002_171633324.jpg',
-    timestamp: new Date("2025-10-02T13:16:33.000Z")
-  },
-  {
-    url: '/photos/PXL_20251002_180209639.jpg',
-    timestamp: new Date("2025-10-02T14:02:09.000Z")
-  },
-  {
-    url: '/photos/PXL_20251002_180214021.jpg',
-    timestamp: new Date("2025-10-02T14:02:14.000Z")
-  },
-  {
-    url: '/photos/PXL_20251002_180218374.jpg',
-    timestamp: new Date("2025-10-02T14:02:18.000Z")
-  },
-  {
-    url: '/photos/PXL_20251002_182721133.jpg',
-    timestamp: new Date("2025-10-02T14:27:21.000Z")
-  },
-  {
-    url: '/photos/PXL_20251002_182722395.jpg',
-    timestamp: new Date("2025-10-02T14:27:22.000Z")
-  },
-  {
-    url: '/photos/PXL_20251002_184015375.jpg',
-    timestamp: new Date("2025-10-02T14:40:15.000Z")
-  },
-  {
-    url: '/photos/PXL_20251002_184016414.jpg',
-    timestamp: new Date("2025-10-02T14:40:16.000Z")
-  },
-  {
-    url: '/photos/PXL_20251002_212150893.jpg',
-    timestamp: new Date("2025-10-02T17:21:50.000Z")
-  },
-  {
-    url: '/photos/PXL_20251002_212236957.jpg',
-    timestamp: new Date("2025-10-02T17:22:36.000Z")
-  },
-  {
-    url: '/photos/PXL_20251002_212248448.jpg',
-    timestamp: new Date("2025-10-02T17:22:48.000Z")
-  },
-  {
-    url: '/photos/PXL_20251002_212249062.jpg',
-    timestamp: new Date("2025-10-02T17:22:49.000Z")
-  },
-  {
-    url: '/photos/PXL_20251002_233825346.jpg',
-    timestamp: new Date("2025-10-02T19:38:25.000Z")
-  },
-  {
-    url: '/photos/PXL_20251002_233826238.jpg',
-    timestamp: new Date("2025-10-02T19:38:26.000Z")
-  },
-  {
-    url: '/photos/PXL_20251002_233826812.jpg',
-    timestamp: new Date("2025-10-02T19:38:26.000Z")
-  }
 ]
 
 function GpxTrack({ url, onPointsLoaded }: GpxTrackProps) {
@@ -248,21 +59,29 @@ function GpxTrack({ url, onPointsLoaded }: GpxTrackProps) {
   const map = useMap();
 
   useEffect(() => {
-    const gpx = new L.GPX(url, {
-      async: true,
-      markers: {
-        startIcon: customIcon,
-        endIcon: customIcon,
-      },
-    })
-      .on("loaded", (e: { target: L.GPX }) => {
-        map.fitBounds(e.target.getBounds());
-      })
-      .addTo(map);
+    if (typeof window === "undefined") return;
     
-    return () => {
-      map.removeLayer(gpx);
-    };
+    import('leaflet-gpx').then(() => {
+      if (!L.GPX) {
+        console.error("L.GPX is not defined after importing 'leaflet-gpx'");
+        return;
+      }
+      const gpx = new L.GPX(url, {
+        async: true,
+        markers: {
+          startIcon: customIcon,
+          endIcon: customIcon,
+        },
+      })
+        .on("loaded", (e: { target: L.GPX }) => {
+          map.fitBounds(e.target.getBounds());
+        })
+        .addTo(map);
+      
+      return () => {
+        map.removeLayer(gpx);
+      };
+    });
   }, [url, map]);
 
   return null;
