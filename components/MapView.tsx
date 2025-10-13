@@ -3,7 +3,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import "leaflet/dist/leaflet.css"
-import { MapContainer, Marker, TileLayer, Tooltip, Popup, useMap } from "react-leaflet"
+import { Polyline, MapContainer, Marker, TileLayer, Tooltip, Popup, useMap } from "react-leaflet"
 import * as L from "leaflet";
 import gpxParser from 'gpxparser';
 
@@ -42,7 +42,7 @@ const photos: Photo[] = [
     timestamp: new Date("2025-10-01T20:03:13.000Z")
   },
 ]
-
+  /*
 function GpxTrack({ url, onPointsLoaded }: GpxTrackProps) {
   const customIcon = new L.Icon({
         iconUrl:
@@ -63,18 +63,18 @@ function GpxTrack({ url, onPointsLoaded }: GpxTrackProps) {
   useEffect(() => {
     // 1. Ensure we are in the browser and the map is ready
     if (typeof window === "undefined" || !map) return;
-    
+    const windowWithL = window as WindowWithL;
     // Use an IIFE (Immediately Invoked Function Expression) for async cleanup
     const loadGpxPlugin = async () => {
       try {
         // Dynamically import the plugin
-        const gpxModule = await import('leaflet-gpx');
+        const gpxModule = (await import('leaflet-gpx')) as unknown as GpxModule;
 
         // 🚨 CRITICAL: Determine the correct GPX Constructor
         // Check the module's default export OR the global L object (where the plugin attaches itself)
         const GPXConstructor = 
-              (gpxModule as any).GPX || 
-                (window as any).L?.GPX;
+              gpxModule.GPX || 
+                windowWithL.L?.GPX;
 
         if (!GPXConstructor) {
           console.error("L.GPX could not be found after dynamic import. The plugin failed to register.");
@@ -139,9 +139,110 @@ function GpxTrack({ url, onPointsLoaded }: GpxTrackProps) {
       };
     });
   }, [url, map]);
-   */
   return null;
 }
+   */
+
+type LatLngTuple = [number, number];
+function CustomGpxTrack({ url }: GpxTrackProps) {
+  const customIcon = new L.Icon({
+    iconUrl:
+          "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+    iconRetinaUrl:
+          "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
+    shadowUrl:
+          "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41],
+  });
+  const map = useMap();
+
+  const [trackPoints, setTrackPoints] = useState<LatLngTuple[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchAndParseGpx = async () => {
+      setLoading(true);
+      try {
+        // 1. Fetch the GPX file content
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(`Failed to fetch GPX file: ${response.statusText}`);
+        }
+        const gpxText = await response.text();
+
+        // 2. Parse the GPX content
+        const parser = new gpxParser();
+        parser.parse(gpxText);
+                
+        // 3. Extract coordinates (lat, lon) from all tracks/segments
+        const points: LatLngTuple[] = [];
+        parser.tracks.forEach(track => {
+          track.points.forEach(p => {
+            // Leaflet uses [lat, lon] order
+            points.push([p.lat, p.lon]); 
+          });
+        });
+
+        if (points.length > 0) {
+          setTrackPoints(points);
+
+          // 4. Fit map bounds (equivalent to leaflet-gpx's .on('loaded', ...))
+          const latLngs = points.map(p => L.latLng(p[0], p[1]));
+          map.fitBounds(L.latLngBounds(latLngs));
+        } else {
+          setTrackPoints([]);
+        }
+
+      } catch (error) {
+        console.error("Error processing GPX data:", error);
+        setTrackPoints([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    // Only fetch and parse if the URL is valid
+    if (url) {
+      fetchAndParseGpx();
+    }
+
+  }, [url, map]); // Re-run effect if URL changes or map instance changes
+
+  // Optional: Render a loading indicator or null while processing
+  if (loading && trackPoints.length === 0) {
+    return null; 
+  }
+
+  return (
+    <>
+      {/* 5. Draw the Polyline */}
+      {trackPoints.length > 0 && (
+        <Polyline 
+          positions={trackPoints} 
+          pathOptions={{ 
+            color: 'red', 
+            weight: 5, 
+            opacity: 0.8 
+          }} 
+        />
+      )}
+            
+      {/* Optional: Render Start/End Markers */}
+      {trackPoints.length > 0 && (
+        <>
+          {/* Start Marker */}
+          <Marker position={trackPoints[0]} icon={customIcon} />
+          {/* End Marker */}
+          <Marker position={trackPoints[trackPoints.length - 1]} icon={customIcon} />
+        </>
+      )}
+    </>
+  );
+}
+
 
 export default function MapView() {
   const customIcon = new L.Icon({
@@ -251,7 +352,7 @@ export default function MapView() {
               url="http://tiles.openseamap.org/seamap/{z}/{x}/{y}.png"
               zIndex={500} // Ensure it draws above the base map
             />
-            <GpxTrack url={gpxUrl} onPointsLoaded={(points) => {setTrackPoints(points); setSliderValue(points[0]?.time || 0); console.log("points.length: ", points.length); }} />    
+            <CustomGpxTrack url={gpxUrl} onPointsLoaded={(() => {})}/>    
             <Marker position={[41.2195553, -73.9674118]} icon={customIcon}>
               <Popup>
                 A pretty CSS3 popup. <br /> Easily customizable.
