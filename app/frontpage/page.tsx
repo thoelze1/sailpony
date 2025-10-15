@@ -19,35 +19,22 @@ async function getNotes() {
     orderBy: { createdAt: 'desc' }, // Newest at the top
     // Note: Prisma returns Date objects for createdAt/updatedAt
   });
+  return notes;
+  /*
   return notes.map(note => ({
     ...note,
       createdAt: note.createdAt.toISOString(),
-  }));
+      }));
+   */
 }
 export default async function HomePage() {
   const initialNotes = await getNotes()
 
   return (
     <div className="min-h-screen bg-gray-900 flex flex-col items-center p-6 space-y-8 text-white">
-      {/* ... Log Submission Form (Keep this as a separate card) ... */}
-
-      {/* --- START: Log History Card (The Split Card) --- */}
-      <div className="w-full max-w-4xl rounded-2xl shadow-2xl overflow-hidden border border-gray-700">
-        
-        {/* TOP SECTION: Header Area (Different Background Color) */}
-        <div className="bg-gray-700 p-4 border-b border-teal-600/50">
-          <h2 className="text-2xl font-semibold text-teal-300">Log History</h2>
-        </div>
-        
-        {/* BOTTOM SECTION: Content/List Area (Main Background Color) */}
-        <div className="bg-gray-800">
-          {/* NoteList now renders the actual data rows */}
-          <NoteList notes={initialNotes} /> 
-        </div>
-      </div>
-      {/* --- END: Log History Card --- */}
+      <CrewNoteForm />
+      <NoteList notes={initialNotes} /> 
     </div>
-    
   )
 }
 
