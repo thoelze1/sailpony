@@ -14,6 +14,12 @@ datasource db {
   url      = "mysql://mysqluser:password@localhost:3306/trackerappdb" // env("DATABASE_URL")
 }
 
+model Note {
+  id          String    @id @default(cuid())
+  createdAt   DateTime  @default(now())
+  content     String
+}
+
 model Sleep {
   id         Int      @id @default(autoincrement())
   bedTime    DateTime
