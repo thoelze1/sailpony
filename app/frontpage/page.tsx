@@ -1,4 +1,5 @@
 // src/app/page.js (Server Component)
+export const dynamic = "force-dynamic"; // otherwise notes don't update
 
 import { prisma } from '@/lib/prisma'
 import CrewNoteForm from '@/components/CrewNoteForm' // Client Component
