@@ -10,9 +10,16 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = "mysql://mysqluser:password@localhost:3306/trackerappdb" // env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
+
+// Oct 14, 07:08 PM
+// It's dark now. Clay just finished running some jack lines
+// Oct 14, 06:53 PM
+// Bailey's cooking mac and cheese
+// Oct 14, 06:51 PM
+// Passed Bokalift 2 by the verrazano, apparently it does wind farm installations
 
 model Note {
   id          String    @id @default(cuid())
