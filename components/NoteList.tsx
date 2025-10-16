@@ -29,9 +29,9 @@ const formatTimestamp = (date: Date): string => {
 
 export default function NoteList({ notes }: NoteListProps) {
   return (
-    <div className="w-full max-w-4xl rounded-2xl shadow-2xl overflow-hidden border border-gray-700">
-      <div className="bg-gray-700 p-4 border-b border-teal-600/50">
-        <h2 className="text-2xl font-semibold text-teal-300">Log History</h2>
+    <div className="w-full max-w-4xl rounded-2xl shadow-2xl overflow-hidden">
+      <div className="bg-gray-700 p-4">
+        <h2 className="text-2xl font-semibold text-gray-300">Log History</h2>
       </div>
       <div className="bg-gray-800">
         <div className="flex flex-col">
@@ -62,9 +62,4 @@ export default function NoteList({ notes }: NoteListProps) {
       </div>
     </div>
   );
-}          /*
-          <div className="grid grid-cols-12 text-sm font-semibold text-teal-400 py-2 px-3 bg-gray-700">
-            <div className="col-span-2 lg:col-span-3">Time & Date</div>
-            <div className="col-span-10 lg:col-span-9">Log Entry Content</div>
-            </div>
-           */
+}

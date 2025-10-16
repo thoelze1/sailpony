@@ -80,7 +80,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 flex flex-col items-center p-6 space-y-8 text-white">
+    <div className="min-h-screen flex flex-col items-center p-6 space-y-8 text-white">
       {/* Map container card */}
       <div className="h-[600px] w-full max-w-4xl rounded-2xl overflow-hidden shadow-lg bg-gray-800 border border-gray-700">
         <p className="p-4 text-lg font-medium">{"We're sailing from Lake Champain to the Florida keys on a 42 foot sailboat. On October 1, we encountered some heavy fog coming through the lowermost locks on the Champlain Canal. Use the slider below to see our progress and to see what photos we took along the way. I'll add more when Bailey, Clay & I put our photos together."}

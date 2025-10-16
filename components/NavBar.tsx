@@ -7,23 +7,28 @@ export default function NavBar() {
   const pathname = usePathname();
 
   const links = [
-    { href: "/", label: "Maps" },
-    { href: "/frontpage", label: "Ship's Log" },
+    { href: "/", label: "About" },
+    { href: "/logbook", label: "Logbook" },
+    { href: "/crew-only", label: "Crew Only" }
   ];
 
   return (
-    <nav className="flex space-x-4 border-b border-gray-200 bg-white px-6 py-3 shadow-sm">
+    <nav className="flex gap-3 p-1 rounded-xl w-fit mx-auto my-6">
       {links.map((link) => {
         const isActive = pathname === link.href;
+
         return (
           <Link
             key={link.href}
             href={link.href}
-            className={`rounded-md px-3 py-2 text-sm font-medium transition ${
-              isActive
-                ? "bg-blue-500 text-white"
-                : "text-gray-700 hover:bg-gray-100"
-            }`}
+            className={`
+              relative px-5 py-2 rounded text-xl font-medium transition-all
+              ${
+                isActive
+                  ? "bg-gray-700 text-white shadow-lg"
+                  : "text-gray-300 hover:bg-gray-800"
+              }
+            `}
           >
             {link.label}
           </Link>

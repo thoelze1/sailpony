@@ -1,8 +1,4 @@
-import Image from "next/image";
-import App from "@/components/App";
+// app/page.tsx
+import AboutPage from "@/app/about/page";
 
-export default function Home() {
-  return (
-    <App />
-  );
-}
+export default AboutPage;
